@@ -214,6 +214,15 @@ fn init_adapters() {
         ("gemini", include_str!("../../adapters/gemini.json")),
         ("grok", include_str!("../../adapters/grok.json")),
         ("meta", include_str!("../../adapters/meta.json")),
+        ("doubao", include_str!("../../adapters/doubao.json")),
+        ("deepseek", include_str!("../../adapters/deepseek.json")),
+        ("glm", include_str!("../../adapters/glm.json")),
+        ("qwen", include_str!("../../adapters/qwen.json")),
+        ("kimi", include_str!("../../adapters/kimi.json")),
+        ("yuanbao", include_str!("../../adapters/yuanbao.json")),
+        ("minimax", include_str!("../../adapters/minimax.json")),
+        ("mimo", include_str!("../../adapters/mimo.json")),
+        ("sensenova", include_str!("../../adapters/sensenova.json")),
     ] {
         match serde_json::from_str::<Adapter>(text)
             .map_err(|error| error.to_string())

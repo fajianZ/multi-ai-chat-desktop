@@ -9,9 +9,9 @@ use tauri_plugin_opener::OpenerExt;
 static TMP_SEQ: AtomicU64 = AtomicU64::new(0);
 static PROVIDER_LIFECYCLE_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
 const DEFAULT_LANGUAGE: &str = "system";
-const LANGUAGES: &[&str] = &["system", "en", "zh-TW", "ja", "de"];
+const LANGUAGES: &[&str] = &["system", "en", "zh-TW", "zh-CN", "ja", "de"];
 const DEFAULT_RESPONSE_LANGUAGE: &str = "auto";
-const RESPONSE_LANGUAGES: &[&str] = &["auto", "en", "zh-TW", "ja", "de"];
+const RESPONSE_LANGUAGES: &[&str] = &["auto", "en", "zh-TW", "zh-CN", "ja", "de"];
 const DEFAULT_LAYOUT_MODE: &str = "focus";
 const DEFAULT_FOCUS_PANE_WIDTH: f64 = 620.0;
 const MIN_FOCUS_PANE_WIDTH: f64 = 420.0;
@@ -20,7 +20,7 @@ const RESIZER_WIDTH: f64 = 6.0;
 const SETTINGS_NORMALIZATION_CONTAINER_WIDTH: f64 = 1400.0;
 const DEFAULT_SNAPSHOT_REDACTION_TIER: &str = "metadata-only";
 const SNAPSHOT_REDACTION_TIERS: &[&str] = &["metadata-only", "hashes", "prompt-text", "full-local"];
-const PROVIDERS: &[&str] = &["chatgpt", "claude", "gemini", "grok", "meta"];
+const PROVIDERS: &[&str] = &["chatgpt", "claude", "gemini", "grok", "meta", "doubao", "deepseek", "glm", "qwen", "kimi", "yuanbao", "minimax", "mimo", "sensenova"];
 const DEFAULT_STANDBY_PROVIDER: &str = "meta";
 const PRESENTATION_STATES: &[&str] = &["chip", "side", "center"];
 
@@ -700,6 +700,10 @@ mod tests {
             Some(&json!("zh-TW"))
         );
         assert_eq!(
+            normalize_settings_value(json!({ "language": "zh-CN" })).get("language"),
+            Some(&json!("zh-CN"))
+        );
+        assert_eq!(
             normalize_settings_value(json!({ "language": "ja" })).get("language"),
             Some(&json!("ja"))
         );
@@ -719,7 +723,7 @@ mod tests {
 
     #[test]
     fn normalizes_response_language_setting_to_supported_values() {
-        for language in ["auto", "en", "zh-TW", "ja", "de"] {
+        for language in ["auto", "en", "zh-TW", "zh-CN", "ja", "de"] {
             assert_eq!(
                 normalize_settings_value(json!({ "responseLanguage": language }))
                     .get("responseLanguage"),

@@ -1,9 +1,9 @@
-export type LanguageSetting = 'system' | 'en' | 'zh-TW' | 'ja' | 'de';
+export type LanguageSetting = 'system' | 'en' | 'zh-TW' | 'zh-CN' | 'ja' | 'de';
 export type Locale = Exclude<LanguageSetting, 'system'>;
 export type ResponseLanguageSetting = 'auto' | Locale;
 
-export const LANGUAGE_SETTINGS = ['system', 'en', 'zh-TW', 'ja', 'de'] as const satisfies readonly LanguageSetting[];
-export const RESPONSE_LANGUAGE_SETTINGS = ['auto', 'en', 'zh-TW', 'ja', 'de'] as const satisfies readonly ResponseLanguageSetting[];
+export const LANGUAGE_SETTINGS = ['system', 'en', 'zh-TW', 'zh-CN', 'ja', 'de'] as const satisfies readonly LanguageSetting[];
+export const RESPONSE_LANGUAGE_SETTINGS = ['auto', 'en', 'zh-TW', 'zh-CN', 'ja', 'de'] as const satisfies readonly ResponseLanguageSetting[];
 
 export function isLanguageSetting(value: unknown): value is LanguageSetting {
   return typeof value === 'string' && LANGUAGE_SETTINGS.includes(value as LanguageSetting);
@@ -34,7 +34,26 @@ export function resolveLocale(language: LanguageSetting, navigatorLanguages: rea
 
 function localeFromNavigatorLanguage(language: string): Locale | undefined {
   const normalized = language.trim().toLowerCase().replace(/_/g, '-');
-  if (normalized === 'zh' || normalized.startsWith('zh-')) return 'zh-TW';
+  if (
+    normalized === 'zh' ||
+    normalized === 'zh-cn' ||
+    normalized.startsWith('zh-cn-') ||
+    normalized === 'zh-hans' ||
+    normalized.startsWith('zh-hans-')
+  )
+    return 'zh-CN';
+  if (
+    normalized === 'zh-tw' ||
+    normalized.startsWith('zh-tw-') ||
+    normalized === 'zh-hant' ||
+    normalized.startsWith('zh-hant-') ||
+    normalized === 'zh-hk' ||
+    normalized.startsWith('zh-hk-') ||
+    normalized === 'zh-mo' ||
+    normalized.startsWith('zh-mo-')
+  )
+    return 'zh-TW';
+  if (normalized.startsWith('zh-')) return 'zh-CN';
   if (normalized === 'ja' || normalized.startsWith('ja-')) return 'ja';
   if (normalized === 'de' || normalized.startsWith('de-')) return 'de';
   if (normalized === 'en' || normalized.startsWith('en-')) return 'en';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_FREE_TARGET_PROVIDERS, DEFAULT_STANDBY_PROVIDER } from '../../shared/constants';
+import { DEFAULT_STANDBY_PROVIDER } from '../../shared/constants';
 import {
   DEFAULT_MODE_ROLE_ASSIGNMENTS,
   replaceModeRoleProvider,
@@ -11,11 +11,25 @@ import {
 } from '../ui/settingsModel';
 
 describe('optional standby provider', () => {
-  it('keeps the original four providers active and Meta AI on standby by default', () => {
+  it('keeps every non-standby provider active and Meta AI on standby by default', () => {
     const settings = defaultSettings();
 
     expect(settings.standbyProvider).toBe(DEFAULT_STANDBY_PROVIDER);
-    expect(activeProvidersForStandby(settings.standbyProvider)).toEqual(DEFAULT_FREE_TARGET_PROVIDERS);
+    expect(activeProvidersForStandby(settings.standbyProvider)).toEqual([
+      'chatgpt',
+      'claude',
+      'gemini',
+      'grok',
+      'doubao',
+      'deepseek',
+      'glm',
+      'qwen',
+      'kimi',
+      'yuanbao',
+      'minimax',
+      'mimo',
+      'sensenova',
+    ]);
     expect(settings.presentation.meta).toBe('chip');
   });
 
@@ -42,6 +56,15 @@ describe('optional standby provider', () => {
       'claude',
       'gemini',
       'meta',
+      'doubao',
+      'deepseek',
+      'glm',
+      'qwen',
+      'kimi',
+      'yuanbao',
+      'minimax',
+      'mimo',
+      'sensenova',
     ]);
     expect(settings.openProviders).toEqual(['meta']);
     expect(settings.presentation.grok).toBe('chip');

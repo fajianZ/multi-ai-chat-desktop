@@ -139,6 +139,15 @@ const defaultStates: Record<AIProvider, ProviderState> = {
     thinking: false,
     lastStatusAt: 1,
   },
+  doubao: { provider: 'doubao', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  deepseek: { provider: 'deepseek', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  glm: { provider: 'glm', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  qwen: { provider: 'qwen', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  kimi: { provider: 'kimi', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  yuanbao: { provider: 'yuanbao', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  minimax: { provider: 'minimax', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  mimo: { provider: 'mimo', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
+  sensenova: { provider: 'sensenova', webview: 'none', dom: 'unknown', login: 'unknown', thinking: false, lastStatusAt: 1 },
 };
 
 function renderTargetChips(overrides: Partial<Renderer["props"]> = {}): Renderer {

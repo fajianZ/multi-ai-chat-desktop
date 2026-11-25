@@ -5,7 +5,7 @@ import type { AIProvider, ChatMode, DebateRoles, ConsultRoles, CodingRoles, Roun
 
 // === AI Provider Info ===
 
-export const ALL_AI_PROVIDERS = ['chatgpt', 'claude', 'gemini', 'grok', 'meta'] as const satisfies readonly AIProvider[];
+export const ALL_AI_PROVIDERS = ['chatgpt', 'claude', 'gemini', 'grok', 'meta', 'doubao', 'deepseek', 'glm', 'qwen', 'kimi', 'yuanbao', 'minimax', 'mimo', 'sensenova'] as const satisfies readonly AIProvider[];
 
 export const AI_PROVIDERS: Record<AIProvider, {
   name: string;
@@ -42,6 +42,60 @@ export const AI_PROVIDERS: Record<AIProvider, {
     url: 'https://www.meta.ai',
     loginUrl: 'https://www.meta.ai',
     color: '#0668e1',
+  },
+  doubao: {
+    name: 'Doubao',
+    url: 'https://www.doubao.com/chat/',
+    loginUrl: 'https://www.doubao.com/chat/',
+    color: '#2e6bff',
+  },
+  deepseek: {
+    name: 'DeepSeek',
+    url: 'https://chat.deepseek.com/',
+    loginUrl: 'https://chat.deepseek.com/sign_in',
+    color: '#4d6bfe',
+  },
+  glm: {
+    name: 'GLM',
+    url: 'https://chat.z.ai/',
+    loginUrl: 'https://chat.z.ai/',
+    color: '#8b5cf6',
+  },
+  qwen: {
+    name: 'Qwen',
+    url: 'https://chat.qwen.ai/',
+    loginUrl: 'https://chat.qwen.ai/',
+    color: '#615ced',
+  },
+  kimi: {
+    name: 'Kimi',
+    url: 'https://www.kimi.com/',
+    loginUrl: 'https://www.kimi.com/',
+    color: '#111111',
+  },
+  yuanbao: {
+    name: 'Yuanbao',
+    url: 'https://yuanbao.tencent.com/',
+    loginUrl: 'https://yuanbao.tencent.com/',
+    color: '#0052d9',
+  },
+  minimax: {
+    name: 'MiniMax',
+    url: 'https://chat.minimax.io/',
+    loginUrl: 'https://chat.minimax.io/',
+    color: '#ff5c39',
+  },
+  mimo: {
+    name: 'MiMo',
+    url: 'https://aistudio.xiaomimimo.com/',
+    loginUrl: 'https://aistudio.xiaomimimo.com/',
+    color: '#ff6900',
+  },
+  sensenova: {
+    name: 'SenseNova',
+    url: 'https://chat.sensetime.com/',
+    loginUrl: 'https://chat.sensetime.com/',
+    color: '#0ea5a5',
   },
 };
 

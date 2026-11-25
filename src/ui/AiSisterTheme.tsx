@@ -10,12 +10,23 @@ import { useI18n } from '../i18n/context';
 
 // The ensemble remains the original four-character commemorative artwork, while
 // every code-defined provider has an identity portrait for provider surfaces.
+// The nine providers added later have no dedicated portrait yet, so they share
+// the ensemble artwork as a placeholder.
 const AVATAR_URLS: Record<AIProvider, string> = {
   chatgpt: chatgptAvatarUrl,
   claude: claudeAvatarUrl,
   gemini: geminiAvatarUrl,
   grok: grokAvatarUrl,
   meta: metaAvatarUrl,
+  doubao: ensembleUrl,
+  deepseek: ensembleUrl,
+  glm: ensembleUrl,
+  qwen: ensembleUrl,
+  kimi: ensembleUrl,
+  yuanbao: ensembleUrl,
+  minimax: ensembleUrl,
+  mimo: ensembleUrl,
+  sensenova: ensembleUrl,
 };
 
 interface ProviderAccent {
@@ -31,6 +42,15 @@ const PROVIDER_ACCENTS: Record<AIProvider, ProviderAccent> = {
   gemini: { solid: '#a78bfa', shadow: 'rgba(167, 139, 250, 0.5)' },
   grok: { solid: '#8b5cf6', shadow: 'rgba(139, 92, 246, 0.5)' },
   meta: META_ACCENT,
+  doubao: { solid: '#2e6bff', shadow: 'rgba(46, 107, 255, 0.5)' },
+  deepseek: { solid: '#4d6bfe', shadow: 'rgba(77, 107, 254, 0.5)' },
+  glm: { solid: '#8b5cf6', shadow: 'rgba(139, 92, 246, 0.5)' },
+  qwen: { solid: '#615ced', shadow: 'rgba(97, 92, 237, 0.5)' },
+  kimi: { solid: '#111111', shadow: 'rgba(17, 17, 17, 0.5)' },
+  yuanbao: { solid: '#0052d9', shadow: 'rgba(0, 82, 217, 0.5)' },
+  minimax: { solid: '#ff5c39', shadow: 'rgba(255, 92, 57, 0.5)' },
+  mimo: { solid: '#ff6900', shadow: 'rgba(255, 105, 0, 0.5)' },
+  sensenova: { solid: '#0ea5a5', shadow: 'rgba(14, 165, 165, 0.5)' },
 };
 
 export type AiSisterAvatarSize = 'xs' | 'sm' | 'md' | 'lg';

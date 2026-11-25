@@ -49,9 +49,9 @@ function formatNameList(names: string[], locale: Locale): string {
   const filtered = names.filter(Boolean);
   if (filtered.length < 2) return filtered[0] ?? '';
   if (locale === 'ja') return filtered.join('、');
-  const conjunction = locale === 'zh-TW' ? '與' : locale === 'de' ? 'und' : 'and';
+  const conjunction = locale === 'zh-TW' ? '與' : locale === 'zh-CN' ? '与' : locale === 'de' ? 'und' : 'and';
   if (filtered.length === 2) return `${filtered[0]} ${conjunction} ${filtered[1]}`;
-  const separator = locale === 'zh-TW' ? '、' : ', ';
+  const separator = locale === 'zh-TW' || locale === 'zh-CN' ? '、' : ', ';
   const prefix = filtered.slice(0, -1).join(separator);
   if (locale === 'en') return `${prefix}, ${conjunction} ${filtered[filtered.length - 1]}`;
   return `${prefix} ${conjunction} ${filtered[filtered.length - 1]}`;

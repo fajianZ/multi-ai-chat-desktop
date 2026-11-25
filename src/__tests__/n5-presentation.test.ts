@@ -66,7 +66,7 @@ describe('N5 webview presentation model', () => {
   it('defaults the active four providers to side and Meta AI to standby chip presentation', () => {
     const presentation = defaultPresentation();
 
-    expect(presentation).toEqual({ chatgpt: 'side', claude: 'side', gemini: 'side', grok: 'side', meta: 'chip' });
+    expect(presentation).toEqual({ chatgpt: 'side', claude: 'side', gemini: 'side', grok: 'side', meta: 'chip', doubao: 'side', deepseek: 'side', glm: 'side', qwen: 'side', kimi: 'side', yuanbao: 'side', minimax: 'side', mimo: 'side', sensenova: 'side' });
     expect(sideProviders(presentation, providers)).toEqual(providers);
     expect(chipProviders(presentation, providers)).toEqual([]);
     expect(centerPresentationProvider(presentation)).toBeUndefined();
@@ -92,7 +92,7 @@ describe('N5 webview presentation model', () => {
     let presentation = setProviderPresentation(defaultPresentation(), 'chatgpt', 'center');
     presentation = setProviderPresentation(presentation, 'claude', 'center');
 
-    expect(presentation).toEqual({ chatgpt: 'side', claude: 'center', gemini: 'side', grok: 'side', meta: 'chip' });
+    expect(presentation).toEqual({ chatgpt: 'side', claude: 'center', gemini: 'side', grok: 'side', meta: 'chip', doubao: 'side', deepseek: 'side', glm: 'side', qwen: 'side', kimi: 'side', yuanbao: 'side', minimax: 'side', mimo: 'side', sensenova: 'side' });
     expect(centerHiddenProviders(presentation, states({ grok: state('grok', 'none') }), new Set<AIProvider>(['gemini']), providers)).toEqual([
       'chatgpt',
     ]);
@@ -104,7 +104,7 @@ describe('N5 webview presentation model', () => {
       presentation: { chatgpt: 'chip', claude: 'center', gemini: 'bad', grok: 'side' },
     });
 
-    expect(normalized.presentation).toEqual({ chatgpt: 'chip', claude: 'center', gemini: 'side', grok: 'side', meta: 'chip' });
+    expect(normalized.presentation).toEqual({ chatgpt: 'chip', claude: 'center', gemini: 'side', grok: 'side', meta: 'chip', doubao: 'side', deepseek: 'side', glm: 'side', qwen: 'side', kimi: 'side', yuanbao: 'side', minimax: 'side', mimo: 'side', sensenova: 'side' });
     expect(restorableOpenProviders(normalized.openProviders, normalized.presentation)).toEqual(['claude', 'gemini']);
 
     const persisted = mergeSettings(normalized, {
@@ -120,6 +120,15 @@ describe('N5 webview presentation model', () => {
       gemini: 'chip',
       grok: 'side',
       meta: 'chip',
+      doubao: 'side',
+      deepseek: 'side',
+      glm: 'side',
+      qwen: 'side',
+      kimi: 'side',
+      yuanbao: 'side',
+      minimax: 'side',
+      mimo: 'side',
+      sensenova: 'side',
     };
 
     expect(normalizePresentation({ chatgpt: 'bad', claude: 'side', gemini: 'bad', grok: 'bad' }, fallback)).toEqual({
@@ -128,6 +137,15 @@ describe('N5 webview presentation model', () => {
       gemini: 'side',
       grok: 'side',
       meta: 'chip',
+      doubao: 'side',
+      deepseek: 'side',
+      glm: 'side',
+      qwen: 'side',
+      kimi: 'side',
+      yuanbao: 'side',
+      minimax: 'side',
+      mimo: 'side',
+      sensenova: 'side',
     });
   });
 

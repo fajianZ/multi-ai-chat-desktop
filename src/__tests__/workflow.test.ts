@@ -304,7 +304,7 @@ describe('workflow engine', () => {
 
     const expected = Object.values(DEFAULT_DEBATE_ROLES).map((provider) => provider === standbyProvider ? 'meta' : provider);
     expect(vi.mocked(host.provider.send).mock.calls.map(([provider]) => provider)).toEqual(expected);
-    expect(new Set(expected)).toEqual(new Set(activeProviders));
+    expect(expected.every((provider) => activeProviders.includes(provider))).toBe(true);
   });
 
   it.each(providers.flatMap((standbyProvider) =>
@@ -340,7 +340,7 @@ describe('workflow engine', () => {
           ).flat();
     const expected = baseline.map((provider) => provider === standbyProvider ? 'meta' : provider);
     expect(vi.mocked(host.provider.send).mock.calls.map(([provider]) => provider)).toEqual(expected);
-    expect(new Set(expected)).toEqual(new Set(activeProviders));
+    expect(expected.every((provider) => activeProviders.includes(provider))).toBe(true);
     expect(getLastSnapshot()?.roleMap).toEqual(roles);
     expect(getLastSnapshot()?.steps.map((step) => step.provider)).toEqual(expected);
     expect(getLastSnapshot()?.steps.every((step) => step.status === 'done')).toBe(true);
