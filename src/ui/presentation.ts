@@ -4,6 +4,15 @@ import type { AIProvider, ProviderState } from '../../shared/types';
 export type WebviewPresentationState = 'chip' | 'side' | 'center';
 export type PresentationByProvider = Record<AIProvider, WebviewPresentationState>;
 
+/**
+ * Maximum number of provider webviews open at once. Each webview is a heavy
+ * WKWebView process; opening many of them exhausts the Mac and the app gets
+ * killed a couple of minutes after launch, so the app keeps at most this many
+ * loaded. The user picks which ones by opening them; opening another one
+ * closes the least-recently-active loaded provider to make room.
+ */
+export const MAX_OPEN_PROVIDERS = 4;
+
 const PROVIDERS = Object.keys(AI_PROVIDERS) as AIProvider[];
 const PRESENTATION_STATES = ['chip', 'side', 'center'] as const satisfies readonly WebviewPresentationState[];
 
@@ -80,7 +89,7 @@ export function sideProviders(
 
 export function restorableOpenProviders(openProviders: readonly AIProvider[], presentation: PresentationByProvider): AIProvider[] {
   const normalized = normalizePresentation(presentation);
-  return openProviders.filter((provider) => normalized[provider] !== 'chip');
+  return openProviders.filter((provider) => normalized[provider] !== 'chip').slice(0, MAX_OPEN_PROVIDERS);
 }
 
 export function centerHiddenProviders(

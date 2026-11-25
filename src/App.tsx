@@ -77,6 +77,7 @@ import {
   centerHiddenProviders,
   centerPresentationProvider,
   defaultPresentation,
+  MAX_OPEN_PROVIDERS,
   restorableOpenProviders,
   setProviderPresentation,
   type PresentationByProvider,
@@ -912,23 +913,49 @@ export default function App() {
     [boundsForPresentationTarget, presentationTransitionCurrent],
   );
 
+  /**
+   * Keep at most MAX_OPEN_PROVIDERS webviews loaded. When opening another one
+   * would exceed the cap, close the least-recently-active loaded provider
+   * (never the centered one, never one that is currently answering). Returns
+   * false when there is no room and nothing safe to close, in which case the
+   * caller must skip opening.
+   */
+  const enforceOpenProviderLimit = useCallback(async (provider: AIProvider): Promise<boolean> => {
+    const states = statesRef.current;
+    if (states[provider].webview === 'loaded') return true;
+    const loaded = (Object.keys(states) as AIProvider[]).filter(
+      (candidate) => states[candidate].webview === 'loaded',
+    );
+    if (loaded.length < MAX_OPEN_PROVIDERS) return true;
+    const centered = centerPresentationProvider(presentationRef.current);
+    const closable = loaded
+      .filter((candidate) => candidate !== provider && candidate !== centered && !states[candidate].thinking)
+      .sort((a, b) => states[a].lastStatusAt - states[b].lastStatusAt);
+    const victim = closable[0];
+    if (!victim) return false;
+    await host.provider.close(victim).catch(() => undefined);
+    return true;
+  }, []);
+
   const openProvider = useCallback(async (provider: AIProvider) => {
+    if (!(await enforceOpenProviderLimit(provider))) return;
     const rect = fallbackBoundsForProvider(provider);
     resetProviderBootState(provider);
     await host.provider.open(provider, rect);
-  }, [fallbackBoundsForProvider]);
+  }, [enforceOpenProviderLimit, fallbackBoundsForProvider]);
 
   const ensureProviderLoadedHidden = useCallback(
     async (provider: AIProvider, bounds: DOMRectReadOnly, shouldContinue: () => boolean = () => true) => {
       if (!shouldContinue()) return;
       if (statesRef.current[provider].webview !== 'loaded') {
+        if (!(await enforceOpenProviderLimit(provider))) return;
         resetProviderBootState(provider);
         await host.provider.open(provider, bounds);
       }
       if (!shouldContinue()) return;
       await host.provider.park(provider, bounds);
     },
-    [],
+    [enforceOpenProviderLimit],
   );
 
   const restoreProvider = useCallback(

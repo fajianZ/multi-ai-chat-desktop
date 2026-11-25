@@ -113,6 +113,28 @@ describe('N5 webview presentation model', () => {
     expect(persisted.presentation.gemini).toBe('chip');
   });
 
+  it('caps restored providers at four so a saved session cannot reopen too many webviews', () => {
+    const normalized = normalizeSettings({
+      openProviders: ['chatgpt', 'claude', 'gemini', 'grok', 'doubao', 'deepseek', 'glm'],
+      presentation: {
+        chatgpt: 'side',
+        claude: 'side',
+        gemini: 'side',
+        grok: 'side',
+        doubao: 'side',
+        deepseek: 'side',
+        glm: 'side',
+      },
+    });
+
+    expect(restorableOpenProviders(normalized.openProviders, normalized.presentation)).toEqual([
+      'chatgpt',
+      'claude',
+      'gemini',
+      'grok',
+    ]);
+  });
+
   it('normalizes invalid presentation entries to side instead of fallback state', () => {
     const fallback: ReturnType<typeof defaultPresentation> = {
       chatgpt: 'chip',
