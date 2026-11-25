@@ -562,9 +562,18 @@ mod tests {
                 "presentation": {
                     "chatgpt": "side",
                     "claude": "side",
+                    "deepseek": "side",
+                    "doubao": "side",
                     "gemini": "side",
+                    "glm": "side",
                     "grok": "side",
-                    "meta": "chip"
+                    "kimi": "side",
+                    "meta": "chip",
+                    "mimo": "side",
+                    "minimax": "side",
+                    "qwen": "side",
+                    "sensenova": "side",
+                    "yuanbao": "side"
                 }
             })
         );
@@ -590,9 +599,18 @@ mod tests {
                 "presentation": {
                     "chatgpt": "chip",
                     "claude": "center",
+                    "deepseek": "side",
+                    "doubao": "side",
                     "gemini": "side",
+                    "glm": "side",
                     "grok": "side",
-                    "meta": "chip"
+                    "kimi": "side",
+                    "meta": "chip",
+                    "mimo": "side",
+                    "minimax": "side",
+                    "qwen": "side",
+                    "sensenova": "side",
+                    "yuanbao": "side"
                 }
             })
         );
@@ -619,22 +637,46 @@ mod tests {
                 "presentation": {
                     "chatgpt": "center",
                     "claude": "side",
+                    "deepseek": "side",
+                    "doubao": "side",
                     "gemini": "side",
+                    "glm": "side",
                     "grok": "side",
-                    "meta": "chip"
+                    "kimi": "side",
+                    "meta": "chip",
+                    "mimo": "side",
+                    "minimax": "side",
+                    "qwen": "side",
+                    "sensenova": "side",
+                    "yuanbao": "side"
                 }
             })
         );
     }
 
     #[test]
-    fn normalizes_standby_provider_and_keeps_exactly_four_active() {
-        for standby in ["chatgpt", "claude", "gemini", "grok", "meta"] {
+    fn normalizes_standby_provider_and_keeps_exactly_thirteen_active() {
+        for standby in [
+            "chatgpt",
+            "claude",
+            "gemini",
+            "grok",
+            "meta",
+            "doubao",
+            "deepseek",
+            "glm",
+            "qwen",
+            "kimi",
+            "yuanbao",
+            "minimax",
+            "mimo",
+            "sensenova",
+        ] {
             let normalized = normalize_settings_value(json!({ "standbyProvider": standby }));
             assert_eq!(normalized.get("standbyProvider"), Some(&json!(standby)));
 
             let active = active_providers_for_settings(&normalized);
-            assert_eq!(active.len(), 4);
+            assert_eq!(active.len(), 13);
             assert!(!active.contains(&standby));
         }
 
@@ -643,7 +685,21 @@ mod tests {
             assert_eq!(normalized.get("standbyProvider"), Some(&json!("meta")));
             assert_eq!(
                 active_providers_for_settings(&normalized),
-                vec!["chatgpt", "claude", "gemini", "grok"]
+                vec![
+                    "chatgpt",
+                    "claude",
+                    "gemini",
+                    "grok",
+                    "doubao",
+                    "deepseek",
+                    "glm",
+                    "qwen",
+                    "kimi",
+                    "yuanbao",
+                    "minimax",
+                    "mimo",
+                    "sensenova"
+                ]
             );
         }
     }
